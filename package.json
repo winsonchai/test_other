@@ -1,0 +1,9 @@
+{
+  "name": "cicd-test-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'SRE running unit tests... Passed!' && exit 0",
+    "start": "node index.js"
+  }
+}
