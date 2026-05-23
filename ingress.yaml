@@ -4,17 +4,16 @@ metadata:
   name: node-app-ingress
   namespace: dev-ui
   annotations:
-    # Tells Rancher Desktop's engine to process this rule
-    kubernetes.io/ingress.class: "traefik" 
+    kubernetes.io/ingress.class: "nginx" # 🏢 Keeps routing bound to the Nginx controller
 spec:
   rules:
-  - host: my-node-app.local # The domain name we want to use locally
+  - host: my-node-app.10.248.40.220.nip.io # 🌐 Magic domain mapping directly to your server IP
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: node-app-service # Must match your exact Service name
+            name: node-app-service
             port:
-              number: 80 # Must match the internal port of your Service
+              number: 80

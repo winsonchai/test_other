@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: node-app-ingress  
+  annotations:
+    # Tells Rancher Desktop's engine to process this rule
+    kubernetes.io/ingress.class: "traefik" 
+spec:
+  rules:
+  - host: my-node-app.local # The domain name we want to use locally
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: node-app-service # Must match your exact Service name
+            port:
+              number: 80 # Must match the internal port of your Service

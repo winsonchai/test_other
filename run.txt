@@ -2,8 +2,8 @@ docker build -t my-node-app:v1 .
 
 docker build --no-cache -t my-node-app:v1 .
 
-docker tag my-node-app:v1 winsonchai2009/winson:v1
-docker push winsonchai2009/winson:v1
+docker tag my-node-app:v1 winsonchai2009/test:v1
+docker push winsonchai2009/test:v1
 
 
 
@@ -14,7 +14,16 @@ kubectl get pods
 # Check if your deployment and services are bound correctly
 kubectl get deployments
 kubectl get services
+kubectl describe pod node-app-deployment
 
+# View the running pods inside the dev-ui space
+kubectl get pods -n dev-ui
+
+# View your service mappings
+kubectl get svc -n dev-ui
+
+# View the active Ingress route paths
+kubectl get ingress -n dev-ui
 
 kubectl apply -f deployment.yaml
 
