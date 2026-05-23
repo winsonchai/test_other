@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: dev-ui
+  name: node-app-deployment
+  labels:
+    app: node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app-container
+        image: winsonchai2009/test:v1
+        imagePullPolicy: Always
+        # imagePullPolicy: Never # Forces K8s to use your local Docker image cache
+        ports:
+        - containerPort: 8080

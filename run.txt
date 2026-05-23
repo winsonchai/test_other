@@ -1,0 +1,22 @@
+docker build -t my-node-app:v1 .
+
+docker build --no-cache -t my-node-app:v1 .
+
+docker tag my-node-app:v1 winsonchai2009/winson:v1
+docker push winsonchai2009/winson:v1
+
+
+
+
+# Check if your pods are running successfully
+kubectl get pods
+
+# Check if your deployment and services are bound correctly
+kubectl get deployments
+kubectl get services
+
+
+kubectl apply -f deployment.yaml
+
+# 3. FORCE KUBERNETES TO PULL THE FRESH IMAGE 🚀
+kubectl rollout restart deployment node-app-deployment

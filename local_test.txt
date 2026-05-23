@@ -1,0 +1,5 @@
+set ACT_DOCKER_SOCK=\\.\pipe\docker_engine&& act push --secret-file .env.secrets
+
+docker images local-sandbox-app
+
+docker run -d -p 8080:8080 --name sandbox-running-test local-sandbox-app:latest
