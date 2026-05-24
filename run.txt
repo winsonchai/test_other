@@ -25,7 +25,15 @@ kubectl get svc -n dev-ui
 # View the active Ingress route paths
 kubectl get ingress -n dev-ui
 
+kubectl get ingress -n scenarioiq
+
+
+node -e "require('net').connect(3306, 'tpt-md-ssbe01.wdc.com', () => { console.log('✅ NETWORK SOCKS OPEN - DATABASE REACHABLE!'); process.exit(0); }).on('error', (e) => { console.log('❌ NETWORK BLOCKED:', e.message); process.exit(1); })"
+
 kubectl apply -f deployment.yaml
 
 # 3. FORCE KUBERNETES TO PULL THE FRESH IMAGE 🚀
 kubectl rollout restart deployment node-app-deployment
+
+close vpn 
+$env:ACT_DOCKER_SOCK="\\.\pipe\docker_engine"; act push --secret-file .env.secrets --pull=false -P ubuntu-latest=node:20-alpine

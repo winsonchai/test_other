@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-nestjs-to-db
+  namespace: dev-ui # 🎯 Must match the namespace where your NestJS app lives
+spec:
+  podSelector:
+    matchLabels:
+      app: node-app # 🏷️ Targets your specific NestJS deployment pod label
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - ipBlock:
+        cidr: tpt-md-ssbe01.wdc.com/32 # 🌐 REPLACE with your database's real IP address / block
+    ports:
+    - protocol: TCP
+      port: 5432 # 🔌 REPLACE with your database port (e.g., 5432, 3306)

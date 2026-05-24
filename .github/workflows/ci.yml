@@ -14,31 +14,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # Test stage runs inside Docker context
+      # Instead of using an external marketplace action, run native docker commands directly!
       - name: Build and Run Container Tests
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          target: tester
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          docker build --target tester -t local-app:test .
 
-      # Production compilation runs ONLY if tester stage passes
       - name: Build Production Artifact
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          target: runner
-          tags: local-sandbox-app:latest
-          outputs: type=docker
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          docker build --target runner -t local-sandbox-app:latest .
           
-      # Verify secret injection without printing the actual value to stdout
       - name: Secret Presence Check
         env:
           MY_SECRET: ${{ secrets.DATABASE_DECRYPT_KEY }}
