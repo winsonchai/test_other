@@ -35,7 +35,7 @@ spec:
         - name: NEXT_PUBLIC_API_BASE_URL
           value: "http://10.248.41.32:32200/api/v1/"
         - name: NEXTAUTH_URL
-          value: "http://10.248.41.32:31302"
+          value: "http://10.248.41.32:31402"
         - name: NEXTAUTH_SECRET
           value: "Rb1OAMFPoc0Q1o6SOBHG+E3PU9DI7FoiI2PCVDS0vME="
         - name: AUTH_SECRET
