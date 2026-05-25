@@ -180,10 +180,9 @@ spec:
           privileged: true
         resources:
           requests:
-            cpu: 2
+            cpu: 100m       # 👈 Asks for only 0.1 CPU core to start (instead of 2)
             memory: 8Gi
           limits:
-            cpu: 2.1
-            memory: 8.1Gi
-      nodeSelector:
-        kubernetes.io/hostname: uls-ed-npixks02.wdc.com
+            cpu: 2          # 👈 Allows it to scale up to 2 full cores if it needs it
+            memory: 8300Mi
+      
