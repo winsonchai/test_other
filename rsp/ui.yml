@@ -53,4 +53,4 @@ spec:
             memory: 8300Mi  
       # 💡 ADD THESE TWO LINES AT THE BOTTOM (Ensure indentation aligns with "containers:")
       nodeSelector:
-        kubernetes.io/hostname: uls-ed-npixks02.wdc.com
+        kubernetes.io/hostname: uls-ed-npixks09.wdc.com
