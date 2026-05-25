@@ -16,6 +16,13 @@ kubectl get deployments
 kubectl get services
 kubectl describe pod node-app-deployment
 
+kubectl get svc -A -o wide | grep -E "NodePort|10.248.40.220"
+
+kubectl get svc -n dev-ui -o wide
+
+kubectl get nodes -o wide
+
+
 # View the running pods inside the dev-ui space
 kubectl get pods -n dev-ui
 
@@ -35,5 +42,7 @@ kubectl apply -f deployment.yaml
 # 3. FORCE KUBERNETES TO PULL THE FRESH IMAGE 🚀
 kubectl rollout restart deployment node-app-deployment
 
-close vpn 
+close vpn and try again
 $env:ACT_DOCKER_SOCK="\\.\pipe\docker_engine"; act push --secret-file .env.secrets --pull=false -P ubuntu-latest=node:20-alpine
+
+act push --secret-file .env.secrets -P local=-self-hosted
