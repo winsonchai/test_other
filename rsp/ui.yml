@@ -24,7 +24,7 @@ spec:
       - name: scenarioiq-ui
         image: artifactory.wdc.com:6570/tpt_ui_v2.1
         command: ["/bin/sh"]
-        args: ["-c", "cd /usr/src/app && /usr/local/bin/npm start"]
+        args: ["-c", "/usr/local/bin/npm start"]
         ports:
         - containerPort: 3000
           name: tpt-ui
