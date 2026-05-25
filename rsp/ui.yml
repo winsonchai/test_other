@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: scenarioiq-ui
-        image: artifactory.wdc.com:6570/tpt_ui_v2.1
+        image: artifactory.wdc.com:6570/tpt_ui_v2.4
         command: ["/bin/sh"]
         args: ["-c", "/usr/local/bin/npm start"]
         ports:
