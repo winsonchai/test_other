@@ -75,7 +75,7 @@ spec:
         - name: BCRYPT_ROUNDS
           value: "10"
         - name: CORS_ORIGIN
-          value: "http://10.248.41.32:31302"
+          value: "http://10.248.41.32:31402"
         - name: RATE_LIMIT_TTL
           value: "60"
         - name: RATE_LIMIT_LIMIT
@@ -175,7 +175,7 @@ spec:
         - name: FAST_API_MODEL
           value: "dev"
         - name: DOCKER_ENV
-          value: "true"
+          value: "true"          
         securityContext:
           privileged: true
         resources:
