@@ -1,0 +1,189 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scenarioiq-api 
+  namespace: dev-ui
+  labels:
+    app: scenarioiq-api
+    env: scenarioiq-api 
+spec:
+  replicas: 1 
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: scenarioiq-api
+      env: scenarioiq-api
+  template:
+    metadata:
+      labels:
+        app: scenarioiq-api
+        env: scenarioiq-api
+    spec:
+      imagePullSecrets:
+      - name: shihua-registry-secret
+      containers:
+      - name: scenarioiq-api
+        image: artifactory.wdc.com:6570/tpt_api_v2.1
+        command: ["/bin/sh"]
+        args:
+        - "-c"
+        - "cd /usr/src/app && npm run start:prod > /tmp/npm.log 2>&1; cat /tmp/npm.log; while sleep 10; do date -u +%T; done"
+        ports:
+        - containerPort: 3000
+          name: tpt-api
+        imagePullPolicy: Always
+        env:
+        - name: NODE_ENV
+          value: "development"
+        - name: PORT
+          value: "3000"
+        - name: API_PREFIX
+          value: "api/v1"
+        - name: APP_NAME
+          value: "RPS Backend Boilerplate (Development)"
+        - name: APP_VERSION
+          value: "1.0.0"
+        - name: PORTKEY_API_KEY
+          value: "0c4DfsiWxJ4Ore47ctS/+7g7x2vl"
+        - name: PORTKEY_BASE_URL
+          value: "https://airouter-sbx.bdp.wdc.com/v1"
+        - name: PORTKEY_SLUG
+          value: "bedrock-sbx"
+        - name: HTTPS_ENABLED
+          value: "false"
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          value: "redis"
+        - name: REDIS_USERNAME
+          value: "redis"
+        - name: REDIS_DB
+          value: "0"
+        - name: REDIS_TTL
+          value: "3600"
+        - name: JWT_SECRET
+          value: "eF16YsjTu4aQ6udzAUx4XxEVOlUq5TLj"
+        - name: JWT_EXPIRES_IN
+          value: "5h"
+        - name: JWT_REFRESH_SECRET
+          value: "WdeBJxMPE8PSXFTgkwkOfJPq3u5R3CLN"
+        - name: JWT_REFRESH_EXPIRES_IN
+          value: "1d"
+        - name: BCRYPT_ROUNDS
+          value: "10"
+        - name: CORS_ORIGIN
+          value: "http://10.248.41.32:31302"
+        - name: RATE_LIMIT_TTL
+          value: "60"
+        - name: RATE_LIMIT_LIMIT
+          value: "100"
+        - name: SWAGGER_TITLE
+          value: "RPS Backend API 2.5 (Development)"
+        - name: SWAGGER_DESCRIPTION
+          value: "Enterprise NestJS Backend API Documentation - Development Environment"
+        - name: SWAGGER_VERSION
+          value: "1.0.0-dev"
+        - name: SWAGGER_PATH
+          value: "api/docs"
+        - name: SWAGGER_ENABLED
+          value: "true"
+        - name: SWAGGER_HOST
+          value: "http://10.248.41.32:32200"
+        - name: LOG_LEVEL
+          value: "debug"
+        - name: LOG_FORMAT
+          value: "simple"
+        - name: LOG_DATE_PATTERN
+          value: "YYYY-MM-DD-HH"
+        - name: LOG_MAX_SIZE
+          value: "20m"
+        - name: LOG_MAX_FILES
+          value: "14d"
+        - name: MAIL_HOST
+          value: "smtp.ethereal.email"
+        - name: MAIL_PORT
+          value: "587"
+        - name: MAIL_USERNAME
+          value: ""
+        - name: MAIL_PASSWORD
+          value: ""
+        - name: MAIL_FROM
+          value: "dev@example.com"
+        - name: UPLOAD_DEST
+          value: "./uploads"
+        - name: MAX_FILE_SIZE
+          value: "10485760"
+        - name: ALLOWED_FILE_TYPES
+          value: "jpg,jpeg,png,gif,pdf,doc,docx,txt"
+        - name: EXTERNAL_API_URL
+          value: "https://jsonplaceholder.typicode.com"
+        - name: EXTERNAL_API_KEY
+          value: "dev-api-key"
+        - name: EXTERNAL_API_TIMEOUT
+          value: "10000"
+        - name: LDAP_SERVER_URI
+          value: "ldaps://ldap.ad.shared:636"
+        - name: LDAP_BIND_DN
+          value: "svc-smartsuite@ad.shared"
+        - name: MARIADB_HOST
+          value: "tpt-md-ssbe01.wdc.com"
+        - name: MARIADB_PORT
+          value: "3306"
+        - name: MARIADB_USERNAME
+          value: "ro_user"
+        - name: MARIADB_PASSWORD
+          value: "WDreadonly123"
+        - name: MARIADB_CONNECTION_LIMIT
+          value: "10"
+        - name: MARIADB_QUEUE_LIMIT
+          value: "0"
+        - name: MARIADB_ACQUIRE_TIMEOUT
+          value: "60000"
+        - name: MARIADB_TIMEOUT
+          value: "60000"
+        - name: MARIADB_RECONNECT
+          value: "false"
+        - name: MARIADB_RECONNECT_INTERVAL
+          value: "1000"
+        - name: MARIADB_MAX_RECONNECT_ATTEMPTS
+          value: "3"
+        - name: MARIADB_SSL
+          value: "false"
+        - name: MARIADB_RSP_DATABASE
+          value: "rapid_scenario_planner"
+        - name: MARIADB_DEMAND_VERSION_DATABASE
+          value: "bdp"
+        - name: DEBUG_ENABLED
+          value: "true"
+        - name: NEXTAUTH_SECRET
+          value: "Rb1OAMFPoc0Q1o6SOBHG+E3PU9DI7FoiI2PCVDS0vME="
+        - name: SAML_SSL_KEY_PATH
+          value: "./certs/saml_private.pem"
+        - name: SAML_SSL_CERT_PATH
+          value: "./certs/saml_cert.pem"
+        - name: SAML_ENABLED
+          value: "false"
+        - name: SAML_CALLBACK_URL
+          value: "http://10.248.41.32:32200/api/v1/login/callback"
+        - name: FAST_API_BASE_URL
+          value: "http://tbb-mp-ssbe05.wdc.com:8000"
+        - name: FAST_API_TIMEOUT
+          value: "10000"
+        - name: FAST_API_MODEL
+          value: "dev"
+        - name: DOCKER_ENV
+          value: "true"
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: 2
+            memory: 8Gi
+          limits:
+            cpu: 2.1
+            memory: 8.1Gi
+        nodeSelector:
+          kubernetes.io/hostname: uls-ed-npixks02.wdc.com
