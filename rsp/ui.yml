@@ -24,14 +24,12 @@ spec:
       - name: scenarioiq-ui
         image: artifactory.wdc.com:6570/tpt_ui_v2.1
         command: ["/bin/sh"]
-        # 💡 Stream standard outputs directly so you don't get a blank screen on kubectl logs
         args: ["-c", "cd /usr/src/app && /usr/local/bin/npm start"]
         ports:
         - containerPort: 3000
           name: tpt-ui
         imagePullPolicy: Always
         env:
-        # 💡 Routed to point to your updated NestJS API backend
         - name: NEXT_PUBLIC_API_BASE_URL
           value: "http://10.248.41.32:32200/api/v1/"
         - name: NEXTAUTH_URL
@@ -48,8 +46,11 @@ spec:
           privileged: true
         resources:
           requests:
-            cpu: 100m       # 👈 Lowered baseline to fit your crowded worker nodes easily
+            cpu: 100m       
             memory: 8Gi
           limits:
             cpu: 2
-            memory: 8300Mi  # 👈 Fixed fractional Gi syntax to avoid decoding errors
+            memory: 8300Mi  
+      # 💡 ADD THESE TWO LINES AT THE BOTTOM (Ensure indentation aligns with "containers:")
+      nodeSelector:
+        kubernetes.io/hostname: uls-ed-npixks02.wdc.com
