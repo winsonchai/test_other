@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scenarioiq-ui 
+  namespace: dev-ui
+  labels:
+    app: scenarioiq-ui
+    env: scenarioiq-ui 
+spec:
+  replicas: 1 
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: scenarioiq-ui
+      env: scenarioiq-ui
+  template:
+    metadata:
+      labels:
+        app: scenarioiq-ui
+        env: scenarioiq-ui
+    spec:
+      containers:
+      - name: scenarioiq-ui
+        image: artifactory.wdc.com:6570/tpt_ui_v2.1
+        command: ["/bin/sh"]
+        # 💡 Stream standard outputs directly so you don't get a blank screen on kubectl logs
+        args: ["-c", "cd /usr/src/app && /usr/local/bin/npm start"]
+        ports:
+        - containerPort: 3000
+          name: tpt-ui
+        imagePullPolicy: Always
+        env:
+        # 💡 Routed to point to your updated NestJS API backend
+        - name: NEXT_PUBLIC_API_BASE_URL
+          value: "http://10.248.41.32:32200/api/v1/"
+        - name: NEXTAUTH_URL
+          value: "http://10.248.41.32:31302"
+        - name: NEXTAUTH_SECRET
+          value: "Rb1OAMFPoc0Q1o6SOBHG+E3PU9DI7FoiI2PCVDS0vME="
+        - name: AUTH_SECRET
+          value: "Rb1OAMFPoc0Q1o6SOBHG+E3PU9DI7FoiI2PCVDS0vME="
+        - name: AUTH_TRUST_HOST
+          value: "true"
+        - name: NEXTAUTH_DEBUG_LOGS
+          value: "true"
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: 100m       # 👈 Lowered baseline to fit your crowded worker nodes easily
+            memory: 8Gi
+          limits:
+            cpu: 2
+            memory: 8300Mi  # 👈 Fixed fractional Gi syntax to avoid decoding errors
